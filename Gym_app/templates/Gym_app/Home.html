@@ -1,10 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'Gym_app/css/Home.css' %}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+    <div>
+        <h1>{% include 'Gym_app/Navbar.html' %}</h1>
+    </div>
+
+{% block login %}
     testowa strona głowna siłowni
+{% endblock %}
 </body>
 </html>

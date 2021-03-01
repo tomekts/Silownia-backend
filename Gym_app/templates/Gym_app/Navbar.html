@@ -1,0 +1,17 @@
+{% load static %}
+<div style="width:700px; display:inline ">
+<a href="{% url 'Gym:Home' %}"><img src="{% static 'Gym_app/img/home-icon.png' %}" alt="cos niedziała XD" width="40" height="40"></a>
+
+
+
+{% if  request.user.is_authenticated%}
+
+
+
+  <a href="{% url 'Products:Logout' %}">wyloguj</a>
+
+{% else %}
+
+  <a href="{% url 'Gym:Login' %}">zaloguj</a>
+{% endif %}
+</div>
