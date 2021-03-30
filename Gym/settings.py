@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'Gym_app.apps.GymAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -114,7 +116,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+AUTH_USER_MODEL = 'Gym_app.User'
+AUTHENTICATION_BACKENDS = ['Gym_app.backends.EmailBackend']
 
 # Static files (CSS, JavaScript, Images)
 STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
