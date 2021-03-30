@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.contrib.auth.views import LogoutView
 from django.views import generic
 # Create your views here.
 
@@ -11,5 +11,5 @@ class Login(generic.TemplateView):
     template_name = 'Gym_app/Login.html'
 
 
-class LogoutView(generic.TemplateView):
-        template_name = 'Gym_app/Home.html'
+class LogoutView(LogoutView):
+    template_name = 'Gym_app/Home.html'
