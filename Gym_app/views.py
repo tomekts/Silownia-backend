@@ -22,16 +22,21 @@ from .serializers import UserSerializer, ExercisesSerializer
 # testowe do django
 class HomeView(generic.TemplateView):
     template_name = 'Gym_app/Home.html'
-class Login(generic.TemplateView):
-    template_name = 'Gym_app/Login.html'
-class LogoutView(LogoutView):
-    template_name = 'Gym_app/Home.html'
 
-
-############## testowe do reacta
 class Test(APIView):
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        res = Response()
+        res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
+        # res.delete_cookie('JW1', samesite='None', )
+        res.data = {
+            'Message': 'Logout complete'
+        }
+        return res
 
+############## logowanie wylogowanie
+class Logout(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         res = Response()
         # res.set_cookie(key="test", value="123", httponly=True, samesite='None', secure=True)
@@ -41,10 +46,7 @@ class Test(APIView):
         }
         return res
 
-
-
-
-class Log(JSONWebTokenAPIView):
+class Login(JSONWebTokenAPIView):
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = JSONWebTokenSerializer
     def post(self, request, *args, **kwargs):
@@ -81,7 +83,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 class ExercisesViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
