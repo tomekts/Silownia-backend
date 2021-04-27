@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LogoutView
 from django.views import generic
 # Create your views here.
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_jwt.views import JSONWebTokenAPIView
@@ -35,7 +35,7 @@ class Test(APIView):
     def post(self, request):
         res = Response()
         # res.set_cookie(key="test", value="123", httponly=True, samesite='None', secure=True)
-        res.set_cookie(key="test1s", value="12ss13", httponly=False, samesite='None', secure=True)
+        res.delete_cookie('JW1', samesite='None', )
         res.data = {
             'Message': 'Logout complete'
         }
@@ -53,15 +53,22 @@ class Log(JSONWebTokenAPIView):
         if serializer.is_valid():
             user = serializer.object.get('user') or request.user
             token = serializer.object.get('token')
-            response_data = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER(token, user, request)
-            response = Response(response_data)
+            # response_data = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER(token, user, request)
+            # response_data =
+            # response = Response(response_data)
+            response = Response()
+            response.data = {
+                'Name': user.username.capitalize(),
+                'Id': user.id,
+            }
             if api_settings.JWT_AUTH_COOKIE:
                 expiration = (datetime.utcnow() +
                               api_settings.JWT_EXPIRATION_DELTA)
                 response.set_cookie(api_settings.JWT_AUTH_COOKIE,
                                     token,
                                     expires=expiration,
-                                    httponly=True,  )
+                                    httponly=True, secure=True, samesite='None' )
+
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

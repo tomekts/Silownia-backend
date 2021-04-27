@@ -151,14 +151,14 @@ REST_FRAMEWORK = {
 }
 
 # Static files (CSS, JavaScript, Images)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/') #wywalic // przy produkcji
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    BASE_DIR,
+    BASE_DIR, 'static' #wywalic static przy produkcji
 ]
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -166,5 +166,6 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
     'JWT_SECRET_KEY': env('SECRET_JWT'),
     'JWT_AUTH_COOKIE': 'JW1',
+
 
 }
