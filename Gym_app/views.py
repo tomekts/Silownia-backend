@@ -24,7 +24,7 @@ class HomeView(generic.TemplateView):
     template_name = 'Gym_app/Home.html'
 
 class Test(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         res = Response()
         res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
@@ -74,6 +74,19 @@ class Login(JSONWebTokenAPIView):
             return response
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Register(APIView):
+    # permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        # res = Response()
+        # res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
+        # res.delete_cookie('JW1', samesite='None', )
+        # res.data = {
+        #     'Message': 'Logout complete'
+        # }
+        print(request.data)
+        return Response(status=201)
 
 
 #serializatory
