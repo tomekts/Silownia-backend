@@ -1,23 +1,34 @@
 from django.contrib.auth.views import LogoutView
 from django.views import generic
+from datetime import datetime
 # Create your views here.
-from rest_framework import viewsets, permissions
+import json
+from .utils import send_email
+# from django.core.mail import send_mail
+from rest_framework import viewsets, permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_jwt.views import JSONWebTokenAPIView
 
 from rest_framework.response import Response
-from datetime import datetime
-from rest_framework import status
 from rest_framework_jwt.settings import api_settings
-from rest_framework_jwt.serializers import (
-    JSONWebTokenSerializer, RefreshJSONWebTokenSerializer,
-    VerifyJSONWebTokenSerializer
-)
+from rest_framework_jwt.serializers import JSONWebTokenSerializer
 
 
+from .utils import generate_token, send_email
+from django.utils.encoding import force_bytes, force_text
+
+
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.template.loader import render_to_string
+from .forms import UserTestForm
+from django.contrib.sites.shortcuts import get_current_site
 from .models import User, Exercises
+from .serializers import RegistrationSerializer
 from .serializers import UserSerializer, ExercisesSerializer
+
+import environ
+env = environ.Env(DEBUG=(bool, False))
 
 # testowe do django
 class HomeView(generic.TemplateView):
@@ -32,9 +43,17 @@ class Test(APIView):
         res.data = {
             'Message': 'Logout complete'
         }
-        return res
 
-############## logowanie wylogowanie
+
+        return Response(status=202)
+
+
+
+
+
+
+
+############## logowanie wylogowanie rejestracja
 class Logout(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
@@ -76,17 +95,52 @@ class Login(JSONWebTokenAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Register(APIView):
-    # permission_classes = [permissions.IsAuthenticated]
+class RegisterViewSet(APIView):
+    # permission_classes = [permissions.AllowAny]
+
     def post(self, request):
-        # res = Response()
-        # res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
-        # res.delete_cookie('JW1', samesite='None', )
-        # res.data = {
-        #     'Message': 'Logout complete'
-        # }
-        print(request.data)
-        return Response(status=201)
+        request_data = json.load(request)
+        form = UserTestForm(request_data)
+
+
+
+        if form.is_valid():
+            form.save()
+            adress = form.data['email']
+            user = User.objects.get(email=adress)
+            file = render_to_string('Gym_app/email_message/activate_email.html', {
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': generate_token.make_token(user),
+                'domain': env('URL'),
+                'user': user
+            })
+            send_email("Witaj " + user.username, adress, file)
+            return Response(form.errors, status=203)
+        return Response(form.errors)
+
+
+class Activ(APIView):
+
+    def post(self, request):
+        date = json.load(request)
+        token = date['token']
+        uidb64 = date['uid']
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except Exception as identifier:
+            user = None
+        if user is not None and generate_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            print('lux')
+            res = Response()
+            res.data = {
+                'Message': 'Logout complete'
+            }
+            return res
+
+        return Response(status=202)
 
 
 #serializatory

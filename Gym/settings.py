@@ -166,6 +166,11 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
     'JWT_SECRET_KEY': env('SECRET_JWT'),
     'JWT_AUTH_COOKIE': 'JW1',
-
-
 }
+
+# email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER =env('EMAIL_USER')
+EMAIL_HOST_PASSWORD =env('EMAIL_PASSWORD')

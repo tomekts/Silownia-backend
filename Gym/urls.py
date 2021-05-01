@@ -22,7 +22,6 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'exercises', views.ExercisesViewSet)
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Gym_app.urls')),
