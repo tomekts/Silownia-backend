@@ -115,7 +115,7 @@ class RegisterViewSet(APIView):
                 'user': user
             })
             send_email("Witaj " + user.username, adress, file)
-            return Response(form.errors, status=203)
+            return Response(form.errors, status=201)
         return Response(form.errors)
 
 
