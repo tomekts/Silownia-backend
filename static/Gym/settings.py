@@ -140,25 +140,26 @@ AUTH_USER_MODEL = 'Gym_app.User'
 AUTHENTICATION_BACKENDS = ['Gym_app.backends.EmailBackend']
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+   'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+
     ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 # Static files (CSS, JavaScript, Images)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') #wywalic // przy produkcji
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    BASE_DIR,
+    BASE_DIR, #wywalic static przy produkcji
 ]
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -166,5 +167,11 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
     'JWT_SECRET_KEY': env('SECRET_JWT'),
     'JWT_AUTH_COOKIE': 'JW1',
-
 }
+
+# email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER =env('EMAIL_USER')
+EMAIL_HOST_PASSWORD =env('EMAIL_PASSWORD')

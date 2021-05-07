@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'sslserver',
     'corsheaders',
+    'django_filters',
 
 
 ]
@@ -140,7 +141,7 @@ AUTH_USER_MODEL = 'Gym_app.User'
 AUTHENTICATION_BACKENDS = ['Gym_app.backends.EmailBackend']
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+   'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -148,6 +149,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
 
     ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 # Static files (CSS, JavaScript, Images)

@@ -151,17 +151,22 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
 class ExercisesViewSet(viewsets.ModelViewSet):
 
     queryset = Exercises.objects.all()
     serializer_class = ExercisesSerializer
+    filterset_fields = ('categoryId', 'name')  # here
     # permission_classes = [permissions.IsAdminUser]
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
 
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     # permission_classes = [permissions.IsAdminUser]
+
 
 
 class TrainingViewSet(viewsets.ModelViewSet):

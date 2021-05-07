@@ -11,8 +11,12 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
+    def urla(self, filename):
+        return os.path.join('images/category/', filename)
+
     name = models.CharField(max_length=200, unique=True)
     description = models.TextField()
+    image = models.ImageField(upload_to=urla, blank=True)
 
     def __str__(self):
         return self.name

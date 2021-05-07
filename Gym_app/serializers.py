@@ -37,7 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ExercisesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercises
-        fields = ['id','name']
+        fields = '__all__'
+        # fields = ['id','name']
 
 
 class CategorySerializer(serializers.ModelSerializer):
