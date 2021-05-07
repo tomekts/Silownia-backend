@@ -23,9 +23,9 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from .forms import UserTestForm
 from django.contrib.sites.shortcuts import get_current_site
-from .models import User, Exercises
+from .models import User, Exercises, Category, Training, TrainingExercises, Series
 from .serializers import RegistrationSerializer
-from .serializers import UserSerializer, ExercisesSerializer
+from .serializers import UserSerializer, ExercisesSerializer, CategorySerializer, TrainingSerializer, TrainingExercisesSerializer, SeriesSerializer
 
 import environ
 env = environ.Env(DEBUG=(bool, False))
@@ -152,9 +152,31 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 class ExercisesViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
+
     queryset = Exercises.objects.all()
     serializer_class = ExercisesSerializer
+    # permission_classes = [permissions.IsAdminUser]
+
+class CategoryViewSet(viewsets.ModelViewSet):
+
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    # permission_classes = [permissions.IsAdminUser]
+
+
+class TrainingViewSet(viewsets.ModelViewSet):
+    queryset = Training.objects.all()
+    serializer_class = TrainingSerializer
+    # permission_classes = [permissions.IsAdminUser]
+
+
+class TrainingExercisesViewSet(viewsets.ModelViewSet):
+    queryset = TrainingExercises.objects.all()
+    serializer_class = TrainingExercisesSerializer
+    # permission_classes = [permissions.IsAdminUser]
+
+
+class SeriesViewSet(viewsets.ModelViewSet):
+    queryset = Series.objects.all()
+    serializer_class = SeriesSerializer
     # permission_classes = [permissions.IsAdminUser]

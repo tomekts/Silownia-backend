@@ -21,6 +21,9 @@ from Gym_app import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'exercises', views.ExercisesViewSet)
+router.register(r'category', views.CategoryViewSet)
+router.register(r'training', views.TrainingViewSet)
+router.register(r'trainexer', views.TrainingExercisesViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

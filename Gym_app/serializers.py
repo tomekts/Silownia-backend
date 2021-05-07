@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exercises, User
+from .models import Exercises, User, Category,Training,TrainingExercises,Series
 from django.contrib.auth import get_user_model # If used custom user model
 
 
@@ -38,3 +38,26 @@ class ExercisesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercises
         fields = ['id','name']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
+class TrainingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Training
+        fields = '__all__'
+
+class TrainingExercisesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingExercises
+        fields = '__all__'
+
+
+class SeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = '__all__'
