@@ -5,8 +5,10 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
 class Exercisesadmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'categoryId')
+    list_display = ('id', 'name', 'categoryId','userId', 'public')
     list_filter = ('categoryId', 'name')
+
+
 
 class Adminadmin(UserAdmin):
     list_display = ('id', 'username', 'email', 'is_active')

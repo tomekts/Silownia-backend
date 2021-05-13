@@ -30,10 +30,12 @@ class Exercises(models.Model):
     def urla(self, filename):
         return os.path.join('images/exercises/', filename)
 
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to=urla, blank=True)
     categoryId = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    public = models.BooleanField()
+    userId = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -41,6 +43,7 @@ class Exercises(models.Model):
     class Meta:
         verbose_name = 'Cwiczenie'
         verbose_name_plural = 'Cwiczenia'
+
 
 class Training(models.Model):
     name = models.CharField(max_length=200, blank=True)
@@ -56,7 +59,7 @@ class Training(models.Model):
 
 class TrainingExercises(models.Model):
     trainingId = models.ForeignKey('Training', on_delete=models.CASCADE, verbose_name='id treningu')
-    exercisesId = models.ForeignKey('Exercises', on_delete=models.CASCADE, verbose_name='cwiczenie')
+    exercisesId = models.ForeignKey('Exercises',  on_delete=models.CASCADE, verbose_name='cwiczenie', blank=True)
 
     def __str__(self):
         return str(self.pk)

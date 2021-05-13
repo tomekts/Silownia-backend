@@ -157,7 +157,7 @@ class ExercisesViewSet(viewsets.ModelViewSet):
 
     queryset = Exercises.objects.all()
     serializer_class = ExercisesSerializer
-    filterset_fields = ('categoryId', 'name')  # here
+    filterset_fields = ('categoryId', 'name', 'public', 'userId')  # here
     # permission_classes = [permissions.IsAdminUser]
 
 
