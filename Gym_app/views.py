@@ -31,8 +31,11 @@ import environ
 env = environ.Env(DEBUG=(bool, False))
 
 # testowe do django
+
+
 class HomeView(generic.TemplateView):
     template_name = 'Gym_app/Home.html'
+
 
 class Test(APIView):
     # permission_classes = [permissions.IsAuthenticated]
@@ -43,8 +46,6 @@ class Test(APIView):
         res.data = {
             'Message': 'Logout complete'
         }
-
-
         return Response(status=202)
 
 
@@ -158,7 +159,7 @@ class ExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()
     serializer_class = ExercisesSerializer
     filterset_fields = ('categoryId', 'name', 'public', 'userId')  # here
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
