@@ -41,12 +41,14 @@ class Test(APIView):
     # permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         res = Response()
-        res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
+        # res.set_cookie(key="test", value="1234", httponly=True, samesite='None', secure=True)
         # res.delete_cookie('JW1', samesite='None', )
         res.data = {
             'Message': 'Logout complete'
         }
-        return Response(status=202)
+
+
+        return Response(status=201)
 
 
 
@@ -54,7 +56,7 @@ class Test(APIView):
 
 
 
-############## logowanie wylogowanie rejestracja
+############## logowanie wylogowanie rejestracja Test_zalogowania
 class Logout(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
@@ -143,6 +145,14 @@ class Activ(APIView):
 
         return Response(status=202)
 
+class Check(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        res = Response()
+        res.data = {
+            'Message': 'Logined'
+        }
+        return Response(status=200)
 
 #serializatory
 class UserViewSet(viewsets.ModelViewSet):

@@ -2,7 +2,7 @@ from django.urls import path
 from Gym_app.views import *
 from . import views
 from django.conf.urls.static import static
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
 from django.conf import settings
 
 app_name = 'Gym'
@@ -13,6 +13,7 @@ urlpatterns = [
     path('register/', views.RegisterViewSet.as_view(), name='Register'),
     path('activ/', views.Activ.as_view(), name='Activ'),
     path('test/', views.Test.as_view(), name='Test'),
+    path('check/', views.Check.as_view(), name='check'),
 
 ]
 if settings.DEBUG:

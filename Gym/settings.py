@@ -165,7 +165,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
+    'JWT_EXPIRATION_DELTA': timedelta(days=6),
     'JWT_SECRET_KEY': env('SECRET_JWT'),
     'JWT_AUTH_COOKIE': 'JW1',
 }
