@@ -179,16 +179,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAdminUser]
 
 
-
 class TrainingViewSet(viewsets.ModelViewSet):
-    queryset = Training.objects.all()
+    queryset = Training.objects.all().order_by('-id')
     serializer_class = TrainingSerializer
+    filterset_fields = ('id',  'userId')  # here
     # permission_classes = [permissions.IsAdminUser]
 
 
 class TrainingExercisesViewSet(viewsets.ModelViewSet):
     queryset = TrainingExercises.objects.all()
     serializer_class = TrainingExercisesSerializer
+    filterset_fields = ('id', 'trainingId')  # here
     # permission_classes = [permissions.IsAdminUser]
 
 

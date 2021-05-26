@@ -15,13 +15,13 @@ class Adminadmin(UserAdmin):
 
 
 class Trainingadmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'date')
+    list_display = ('id', 'name', 'date', 'userId')
 
 class Seriesadmin(admin.ModelAdmin):
     list_display = ('id', 'TrainingExercisesId',  'weight', 'count')
 
 class TrainingExercisesadmin(admin.ModelAdmin):
-    list_display = ('id', 'trainingId', 'exercisesId')
+    list_display = ('id', 'trainingId', 'exercisesId', )
 
 
 
