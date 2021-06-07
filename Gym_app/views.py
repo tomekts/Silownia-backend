@@ -196,4 +196,5 @@ class TrainingExercisesViewSet(viewsets.ModelViewSet):
 class SeriesViewSet(viewsets.ModelViewSet):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    filterset_fields = ('id', 'TrainingExercisesId', 'TrainingId')  # here
     # permission_classes = [permissions.IsAdminUser]
