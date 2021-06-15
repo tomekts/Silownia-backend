@@ -59,7 +59,7 @@ class Training(models.Model):
 
 class TrainingExercises(models.Model):
     trainingId = models.ForeignKey('Training', on_delete=models.CASCADE, verbose_name='id treningu')
-    exercisesId = models.ForeignKey('Exercises',  on_delete=models.CASCADE, verbose_name='cwiczenie', blank=True)
+    exercisesId = models.ForeignKey('Exercises',  on_delete=models.CASCADE, verbose_name='cwiczenie')
 
     def __str__(self):
         return str(self.pk)
@@ -74,8 +74,8 @@ class TrainingExercises(models.Model):
 class Series(models.Model):
     TrainingExercisesId = models.ForeignKey('TrainingExercises', on_delete=models.CASCADE, verbose_name='id cwiczenia treningu')
     TrainingId = models.ForeignKey('Training', on_delete=models.CASCADE, verbose_name='id  treningu')
-    weight = models.IntegerField()
-    count = models.IntegerField()
+    weight = models.IntegerField(blank=True, null=True)
+    count = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return str(self.pk)
