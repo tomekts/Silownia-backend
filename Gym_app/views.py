@@ -117,7 +117,7 @@ class RegisterViewSet(APIView):
                 'domain': env('URL'),
                 'user': user
             })
-            send_email("Witaj " + user.username, adress, file)
+            send_email("Witaj " + user.username.capitalize(), adress, file)
             return Response(form.errors, status=201)
         return Response(form.errors)
 
@@ -136,14 +136,13 @@ class Activ(APIView):
         if user is not None and generate_token.check_token(user, token):
             user.is_active = True
             user.save()
-            print('lux')
             res = Response()
             res.data = {
-                'Message': 'Logout complete'
+                'Message': 'Aktywacja konta'
             }
             return res
 
-        return Response(status=202)
+        return Response(status=405)
 
 class Check(APIView):
     permission_classes = [permissions.IsAuthenticated]
