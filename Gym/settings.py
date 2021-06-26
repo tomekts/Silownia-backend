@@ -9,15 +9,21 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+
 import os
 from pathlib import Path
 from datetime import  timedelta
 import environ
+import time
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
-
 )
+
+
+os.environ["TZ"] = "Europe/Warsaw"
+time.tzset()
+
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
