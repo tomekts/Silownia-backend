@@ -74,7 +74,7 @@ class TrainingExercises(models.Model):
 class Series(models.Model):
     TrainingExercisesId = models.ForeignKey('TrainingExercises', on_delete=models.CASCADE, verbose_name='id cwiczenia treningu')
     TrainingId = models.ForeignKey('Training', on_delete=models.CASCADE, verbose_name='id  treningu')
-    weight = models.IntegerField(blank=True, null=True)
+    weight = models.FloatField(blank=True, null=True)
     count = models.IntegerField(blank=True, null=True)
 
     def __str__(self):

@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from datetime import  timedelta
 import environ
-import time
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -22,7 +21,7 @@ env = environ.Env(
 
 
 os.environ["TZ"] = "Europe/Warsaw"
-time.tzset()
+
 
 environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
