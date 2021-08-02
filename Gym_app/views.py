@@ -9,10 +9,12 @@ from rest_framework import viewsets, permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_jwt.views import JSONWebTokenAPIView
+from django.db import connection
 
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.serializers import JSONWebTokenSerializer
+
 
 
 from .utils import generate_token, send_email
@@ -26,7 +28,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from .models import User, Exercises, Category, Training, TrainingExercises, Series
 from .serializers import RegistrationSerializer
 from .serializers import UserSerializer, ExercisesSerializer, CategorySerializer, TrainingSerializer, TrainingExercisesSerializer, SeriesSerializer
-
+from django.core import serializers
 import environ
 env = environ.Env(DEBUG=(bool, False))
 
@@ -152,6 +154,53 @@ class Check(APIView):
             'Message': 'Logined'
         }
         return Response(status=200)
+
+
+class GetSeriesByUserAndExer(APIView):
+
+
+    def post(self, request):
+        def dictfetchall(cursor):
+            "Return all rows from a cursor as a dict"
+            columns = [col[0] for col in cursor.description]
+            return [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+
+        res = Response()
+        try:
+            date = json.load(request)
+            try:
+                id = date['userId']
+                exerId = date['exerId']
+                print(id)
+                c = connection.cursor()
+                c.execute("SELECT t.id, t.date, t.userId_id, t.name, s.count, s.weight, te.exercisesId_id FROM Gym_app_training as t "
+                          "join Gym_app_series as s on t.id = s.TrainingId_id "
+                          "join Gym_app_trainingexercises as te on te.id = s.TrainingExercisesId_id "
+                          "where userId_id=%s and exercisesId_id=%s"
+                          "order by t.id desc",[id, exerId])
+
+                result = dictfetchall(c)
+                c.close()
+                res.data = result
+                res.status_code = 200
+                return res
+            except:
+                res.status_code = 405
+                res.data = {
+                    'Message': 'Błędne dane'
+                }
+                return res
+        except:
+            res.data = {
+                'Message': 'Brak danych'
+            }
+            res.status_code = 405
+            return res
+
+
 
 #serializatory
 class UserViewSet(viewsets.ModelViewSet):

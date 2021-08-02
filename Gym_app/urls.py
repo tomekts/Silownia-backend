@@ -14,6 +14,7 @@ urlpatterns = [
     path('activ/', views.Activ.as_view(), name='Activ'),
     path('test/', views.Test.as_view(), name='Test'),
     path('check/', views.Check.as_view(), name='check'),
+    path('stat/', views.GetSeriesByUserAndExer.as_view(), name='stat'),
 
 ]
 if settings.DEBUG:
