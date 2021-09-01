@@ -3,11 +3,8 @@ from django.views import generic
 from datetime import datetime
 # Create your views here.
 import json
-from .utils import send_email
-# from django.core.mail import send_mail
-from rest_framework import viewsets, permissions, status, generics
+from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from django.db import connection
 
@@ -20,15 +17,11 @@ from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from .utils import generate_token, send_email
 from django.utils.encoding import force_bytes, force_text
 
-
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.template.loader import render_to_string
 from .forms import UserTestForm
-from django.contrib.sites.shortcuts import get_current_site
 from .models import User, Exercises, Category, Training, TrainingExercises, Series
-from .serializers import RegistrationSerializer
 from .serializers import UserSerializer, ExercisesSerializer, CategorySerializer, TrainingSerializer, TrainingExercisesSerializer, SeriesSerializer
-from django.core import serializers
 import environ
 env = environ.Env(DEBUG=(bool, False))
 
@@ -93,7 +86,7 @@ class Login(JSONWebTokenAPIView):
                 response.set_cookie(api_settings.JWT_AUTH_COOKIE,
                                     token,
                                     expires=expiration,
-                                    httponly=True, secure=True, samesite='None' )
+                                    httponly=True, secure=True, samesite='None')
 
             return response
 
@@ -157,7 +150,7 @@ class Check(APIView):
 
 
 class GetSeriesByUserAndExer(APIView):
-
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         def dictfetchall(cursor):
@@ -231,14 +224,14 @@ class TrainingViewSet(viewsets.ModelViewSet):
     queryset = Training.objects.all().order_by('-id')
     serializer_class = TrainingSerializer
     filterset_fields = ('id',  'userId')  # here
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class TrainingExercisesViewSet(viewsets.ModelViewSet):
     queryset = TrainingExercises.objects.all()
     serializer_class = TrainingExercisesSerializer
     filterset_fields = ('id', 'trainingId')  # here
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class SeriesViewSet(viewsets.ModelViewSet):
