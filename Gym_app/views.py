@@ -202,7 +202,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ExercisesViewSet(viewsets.ModelViewSet):
@@ -217,7 +217,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.AllowAny]
 
 
 class TrainingViewSet(viewsets.ModelViewSet):
