@@ -47,10 +47,6 @@ class Test(APIView):
 
 
 
-
-
-
-
 ############## logowanie wylogowanie rejestracja Test_zalogowania
 class Logout(APIView):
     permission_classes = [permissions.IsAuthenticated]
