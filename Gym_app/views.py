@@ -114,7 +114,7 @@ class RegisterViewSet(APIView):
 
 
 class Activ(APIView):
-
+    permission_classes = [permissions.AllowAny]
     def post(self, request):
         date = json.load(request)
         token = date['token']
@@ -132,7 +132,6 @@ class Activ(APIView):
                 'Message': 'Aktywacja konta'
             }
             return res
-
         return Response(status=405)
 
 class Check(APIView):
