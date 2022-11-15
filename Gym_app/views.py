@@ -105,7 +105,7 @@ class RegisterViewSet(APIView):
             file = render_to_string('Gym_app/email_message/activate_email.html', {
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': generate_token.make_token(user),
-                'domain': env('URL'),
+                'domain': request.get_host(),
                 'user': user
             })
             send_email("Witaj " + user.username.capitalize(), adress, file)
