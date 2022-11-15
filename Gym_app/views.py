@@ -105,14 +105,12 @@ class RegisterViewSet(APIView):
             file = render_to_string('Gym_app/email_message/activate_email.html', {
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': generate_token.make_token(user),
-                'domain': request.get_host(),
+                'domain': request.headers['Origin'],
                 'user': user
             })
             send_email("Witaj " + user.username.capitalize(), adress, file)
             return Response(form.errors, status=201)
         return Response(form.errors)
-
-
 class Activ(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request):
