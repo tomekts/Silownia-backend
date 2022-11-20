@@ -136,10 +136,12 @@ class Check(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         res = Response()
+        res.status_code=200
         res.data = {
-            'Message': 'Logined'
+            'Message': 'Logined',
+            'userId': request.user.id
         }
-        return Response(status=200)
+        return res
 
 
 class GetSeriesByUserAndExer(APIView):
